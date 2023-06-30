@@ -1,0 +1,231 @@
+/*
+	This program is used to calculate
+	and determine the condition of
+	the MG1 and MG2 by collected data
+	from an Insulation Test and a
+	Stator Continuity Test.
+*/
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+	int choice;
+	double InsulationTestMG1_U,
+		   InsulationTestMG1_V,
+		   InsulationTestMG1_W;
+	double InsulationTestMG2_U,
+		   InsulationTestMG2_V,
+		   InsulationTestMG2_W;
+	double ContinuityTestMG1_WU,
+		   ContinuityTestMG1_UV,
+		   ContinuityTestMG1_VW,
+		   ContinuityTestMG1Avg;
+	double ContinuityTestMG2_WU,
+		   ContinuityTestMG2_UV,
+		   ContinuityTestMG2_VW,
+		   ContinuityTestMG2Avg;
+	
+	cout << "----------------------------------------------------------------------------------------------------" << endl;
+	cout << " #######                                               #     #										 " << endl;
+	cout << " #       #      ######  ####  ##### #####  #  ####     ##   ##   ##    ####  #    # # #    # ###### " << endl;
+	cout << " #       #      #      #    #   #   #    # # #    #    # # # #  #  #  #    # #    # # ##   # #      " << endl;
+	cout << " #####   #      #####  #        #   #    # # #         #  #  # #    # #      ###### # # #  # #####  " << endl;
+	cout << " #       #      #      #        #   #####  # #         #     # ###### #      #    # # #  # # #      " << endl;
+	cout << " #       #      #      #    #   #   #   #  # #    #    #     # #    # #    # #    # # #   ## #      " << endl;
+	cout << " ####### ###### ######  ####    #   #    # #  ####     #     # #    #  ####  #    # # #    # ###### " << endl;
+    cout << "                                                            										 " << endl;                                                                                                
+	cout << "  #####                                 #######                                                     " << endl;
+	cout << " #     # #####   ##   ##### #  ####        #    ######  ####  ##### # #    #  ####                  " << endl;
+	cout << " #         #    #  #    #   # #    #       #    #      #        #   # ##   # #    #                 " << endl;
+	cout << "  #####    #   #    #   #   # #            #    #####   ####    #   # # #  # #                      " << endl;
+	cout << "       #   #   ######   #   # #            #    #           #   #   # #  # # #  ###                 " << endl;
+	cout << " #     #   #   #    #   #   # #    #       #    #      #    #   #   # #   ## #    #                 " << endl;
+	cout << "  #####    #   #    #   #   #  ####        #    ######  ####    #   # #    #  ####					 " << endl;
+	cout << "----------------------------------------------------------------------------------------------------" << endl;
+	
+	do
+	{
+	//Display Menu
+		cout<<"\n\t\t\t\t\t      Main Menu"<<endl;
+		cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+		cout<<"\t\t\t\t      * 1.Insulation Test       *"<<endl;
+		cout<<"\t\t\t\t      * 2.Stator Continuity Test*"<<endl;
+		cout<<"\t\t\t\t      * 3.Quit this program     *"<<endl;
+		cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+		cout<<"\t\t\t\t\tEnter your choice (1-3): ";
+		
+	//Takes in choice
+		cin>>choice;
+		
+	//Validate input
+		while (choice<1 || choice>3)										//If choice is not inbetween 1 and 3 then the following prompt will be given
+		{
+			cout<<"\n\t\t\t\t   INVALID INPUT"<<endl;
+			cout<<"\t\t\t\t Please enter either a 1, 2, or 3: ";
+		
+	//Accepts correct choice to continue	
+			if (choice < 3 || choice > 1)									//Makes sure choice is inbetween 1 and 3
+			cin >> choice;
+		
+	//If not a number ...
+			else if (!(cin>>choice));
+			{
+				cin.clear();												//Clears the input to prevent crash
+				cin.ignore(1000,'\n');										//Skips 1000 characters or skips to the begining of the next line
+  				cout<< "\t\t\t\t   ONLY DIGITS"<<endl;						//depending on whether a newline character is encountered before 1000 characters are skipped.
+			}
+		}
+//		cout.setf(ios::right);
+
+//Perform the desired operation
+		switch (choice)
+		{
+			case 1://Insulation Test
+			{
+				cout << "---------------------------------------------------------------------------------------------" << endl;
+				cout << " ###                                                             #######                     " << endl;
+  				cout << "  #  #    #  ####  #    # #        ##   ##### #  ####  #    #       #    ######  ####  ##### " << endl;
+  				cout << "  #  ##   # #      #    # #       #  #    #   # #    # ##   #       #    #      #        #   " << endl;
+				cout << "  #  # #  #  ####  #    # #      #    #   #   # #    # # #  #       #    #####   ####    #   " << endl;
+				cout << "  #  #  # #      # #    # #      ######   #   # #    # #  # #       #    #           #   #   " << endl;
+				cout << "  #  #   ## #    # #    # #      #    #   #   # #    # #   ##       #    #      #    #   #   " << endl;
+				cout << " ### #    #  ####   ####  ###### #    #   #   #  ####  #    #       #    ######  ####    #   " << endl;
+				cout << "---------------------------------------------------------------------------------------------" << endl;
+				
+				cout << "\n\nAccording to specifications, a passing test should have data reading: 100 M Ohms or higher." << endl;
+				
+				cout << "\nPlease enter MG1 reading U (only digits): " << endl;
+				cin >> InsulationTestMG1_U;												//input for MG1 U
+				cout << "\nPlease enter MG1 reading V (only digits): " << endl;
+				cin >> InsulationTestMG1_V;												//input for MG1 V
+				cout << "\nPlease enter MG1 reading W (only digits): " << endl;
+				cin >> InsulationTestMG1_W;												//input for MG1 W
+				
+				if (InsulationTestMG1_U >= 100.0 && InsulationTestMG1_V >= 100.0 && InsulationTestMG1_W >= 100.0)		//Check to see inputs are all over 100M Ohms
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *     Insulation Test:    *"<<endl;
+					cout<<"\t\t\t\t      *                         *"<<endl;
+					cout<<"\t\t\t\t      *          PASSED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				else
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *     Insulation Test:    *"<<endl;
+					cout<<"\t\t\t\t      *                         *"<<endl;
+					cout<<"\t\t\t\t      *          FAILED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				
+				cout << "\nPlease enter MG2 reading U (only digits): " << endl;
+				cin >> InsulationTestMG2_U;												//input for MG2 U
+				cout << "\nPlease enter MG2 reading V (only digits): " << endl;
+				cin >> InsulationTestMG2_V;												//input for MG2 V
+				cout << "\nPlease enter MG2 reading W (only digits): " << endl;
+				cin >> InsulationTestMG2_W;												//input for MG2 W
+				
+				if (InsulationTestMG2_U >= 100.0 && InsulationTestMG2_V >= 100.0 && InsulationTestMG2_W >= 100.0)		//Check to see inputs are all over 100M Ohms
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *     Insulation Test:    *"<<endl;
+					cout<<"\t\t\t\t      *                         *"<<endl;
+					cout<<"\t\t\t\t      *          PASSED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				else
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *     Insulation Test:    *"<<endl;
+					cout<<"\t\t\t\t      *                         *"<<endl;
+					cout<<"\t\t\t\t      *          FAILED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+			break;
+			}
+			
+			case 2://Stator Continuity Test
+			{
+				cout << "----------------------------------------------------------------------------------------------------------" << endl;
+				cout << "  #####                                       #####                                                       " << endl;
+				cout << " #     # #####   ##   #####  ####  #####     #     #  ####  #    # ##### # #    # #    # # ##### #   #    " << endl;
+				cout << " #         #    #  #    #   #    # #    #    #       #    # ##   #   #   # ##   # #    # #   #    # #     " << endl;
+				cout << "  #####    #   #    #   #   #    # #    #    #       #    # # #  #   #   # # #  # #    # #   #     #      " << endl;
+				cout << "       #   #   ######   #   #    # #####     #       #    # #  # #   #   # #  # # #    # #   #     #      " << endl;
+				cout << " #     #   #   #    #   #   #    # #   #     #     # #    # #   ##   #   # #   ## #    # #   #     #      " << endl;
+				cout << "  #####    #   #    #   #    ####  #    #     #####   ####  #    #   #   # #    #  ####  #   #     #      " << endl;
+				cout << "																										   " << endl;
+				cout << "                                     #######                                                              " << endl;
+				cout << "                                        #    ######  ####  #####                                          " << endl;
+				cout << "                                        #    #      #        #                                            " << endl;
+				cout << "                                        #    #####   ####    #                                            " << endl;
+				cout << "                                        #    #           #   #                                            " << endl;
+				cout << "                                        #    #      #    #   #                                            " << endl;
+				cout << "                                        #    ######  ####    #                                            " << endl;
+				cout << "----------------------------------------------------------------------------------------------------------" << endl;
+				
+				cout << "\n\nAccording to general specifications, a passing test should have data readings of 100 m Ohms to 150 m Ohms." << endl;
+				cout << "Different makes and models have their own set of specification parameters." << endl;
+				cout << "A good set of readings has results within 5% of each other, but should also read close to the given specs." << endl;
+				
+				cout << "\nPlease enter MG1 readings for WU (only digits): " << endl;
+				cin >> ContinuityTestMG1_WU;												//input for MG1 W-U
+				cout << "\nPlease enter MG1 readings for UV (only digits): " << endl;
+				cin >> ContinuityTestMG1_UV;												//input for MG1 U-V
+				cout << "\nPlease enter MG1 readings for VW (only digits): " << endl;
+				cin >> ContinuityTestMG1_VW;												//input for MG1 V-W
+				
+				ContinuityTestMG1Avg = (ContinuityTestMG1_WU + ContinuityTestMG1_UV + ContinuityTestMG1_VW) / 3.0;				//Get the average to determine if inputs are within 5%
+																																//of each other.
+				if (ContinuityTestMG1_WU > ContinuityTestMG1Avg - 0.05 || ContinuityTestMG1_WU > ContinuityTestMG1Avg + 0.05)	//Check between input and average (- or +) 5%
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *    Staitor Continuity   *"<<endl;
+					cout<<"\t\t\t\t      *           Test:         *"<<endl;
+					cout<<"\t\t\t\t      *          PASSED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				else
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *    Staitor Continuity   *"<<endl;
+					cout<<"\t\t\t\t      *           Test:         *"<<endl;
+					cout<<"\t\t\t\t      *          FAILED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				
+				cout << "\nPlease enter MG2 readings for WU (only digits): " << endl;
+				cin >> ContinuityTestMG2_WU;												//input for MG2 W-U
+				cout << "\nPlease enter MG2 readings for UV (only digits): " << endl;
+				cin >> ContinuityTestMG2_UV;												//input for MG2 U-V
+				cout << "\nPlease enter MG2 readings for VW (only digits): " << endl;
+				cin >> ContinuityTestMG2_VW;												//input for MG2 V-W
+				
+				ContinuityTestMG2Avg = (ContinuityTestMG2_WU + ContinuityTestMG2_UV + ContinuityTestMG2_VW) / 3.0;				//Get the average to determine if inputs are within 5%
+																																//of each other.
+				if (ContinuityTestMG2_WU > ContinuityTestMG2Avg - 0.05 || ContinuityTestMG2_WU > ContinuityTestMG2Avg + 0.05)   //Check between input and average (- or +) 5%
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *    Staitor Continuity   *"<<endl;
+					cout<<"\t\t\t\t      *           Test:         *"<<endl;
+					cout<<"\t\t\t\t      *          PASSED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				else
+				{
+					cout<<"\n\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+					cout<<"\t\t\t\t      *    Staitor Continuity   *"<<endl;
+					cout<<"\t\t\t\t      *           Test:         *"<<endl;
+					cout<<"\t\t\t\t      *          FAILED         *"<<endl;
+					cout<<"\t\t\t\t      *-*-*-*-*-*-*-*-*-*-*-*-*-*"<<endl;
+				}
+				
+				break;
+			}
+		}
+	}
+	while (choice !=3); 			//Expression is Tested and program loops if Choice is not equal to 3.
+}
